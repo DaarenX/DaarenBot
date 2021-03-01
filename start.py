@@ -1,6 +1,6 @@
-from src.commands import client
+from src.commands import client, config
 import json
 
 if __name__ == "__main__":
-    token = json.load(open("src/config.json"))['token']
+    token = config['token']
     client.run(token)
