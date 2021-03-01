@@ -1,12 +1,12 @@
 # DaarenBot
 My Discord Bot whoop
 
-#Requirements:
+# Requirements:
 - [Python 3](https://www.python.org/)
 - [FFmpeg](https://ffmpeg.org/)
 - [Discord Bot Token](https://discord.com/developers/applications/) *(New Application)*
 
-#Installation
+# Installation
 
 1. `pip install -r requirements.txt`
 2. Create a config.json file in `src/` :
@@ -19,6 +19,6 @@ My Discord Bot whoop
     }
 3. Download .mp3 files from somewhere idk
 
-#Usage:
+# Usage:
 
 `/start.bat` or `python start.py`
