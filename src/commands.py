@@ -20,7 +20,7 @@ async def on_ready():
     print("Login Successful!")
     game = discord.Game("Shaco")
     await client.change_presence(activity=game)
-    client.whopper = False
+    client.isPlayingSubtitles = False
     client.lastLazerUser = None
 
 
@@ -33,10 +33,10 @@ async def on_message(ctx):
     elif ctx.content == "Daaren":
         await ctx.channel.send("that's me lol")
 
-    elif ctx.content.lower().startswith("suck my dick") and not client.whopper:
+    elif ctx.content.lower().startswith("suck my dick") and not client.isPlayingSubtitles:
         if await playSound(ctx, "whoppertm"):
-            await whoppertm(ctx)
-            client.whopper = True
+            await subtitles(ctx)
+            client.isPlayingSubtitles = True
 
     elif ctx.content.lower() == "za warudo":
         await playSound(ctx, "zawarudo")
@@ -66,7 +66,7 @@ async def close(ctx):  # This is currently the same as restart because why not
 @client.command(hidden=True)
 @commands.is_owner()
 async def reset():
-    client.whopper = False
+    client.isPlayingSubtitles = False
 
 
 @client.command(hidden=True)
@@ -191,11 +191,11 @@ async def playSound(ctx, filename):
     return False
 
 
-async def whoppertm(ctx):
+async def subtitles(ctx):
     startTime = time.time()
-    for i in json.load(open("src/suckmydick.json")):
+    for i in json.load(open("src/subtitles.json")):
         nextTime = startTime + float(i["time"])
         while nextTime > time.time():
             pass
         await ctx.channel.send(i["text"])
-    client.whopper = False
+    client.isPlayingSubtitles = False
