@@ -6,10 +6,11 @@ import random
 from urllib.request import urlopen
 from src.quotes import quotes
 import time
+from gtts import gTTS
 
-configfile = open("src/config.json")
-config = json.load(configfile)
-configfile.close()
+with open("src/config.json") as configfile:
+    config = json.load(configfile)
+
 
 client = commands.Bot(command_prefix='!', description="DaarenBot", owner_id=config['owner_id'])
 
@@ -20,12 +21,8 @@ async def on_ready():
     game = discord.Game("Shaco")
     await client.change_presence(activity=game)
     client.whopper = False
-    client.lazer = None
+    client.lastLazerUser = None
 
-
-#
-# Das ist kein good practice eigentlich aber kann man nix machen xd
-#
 
 @client.listen()
 async def on_message(ctx):
@@ -46,14 +43,14 @@ async def on_message(ctx):
         await ctx.channel.send("BRRRRRRRRRRRRRR")
 
     elif ctx.content.lower() == "hey can we go on land?":
-        client.lazer = ctx.author.id
+        client.lastLazerUser = ctx.author.id
         if await playSound(ctx, "no"):
             await ctx.channel.send("*no~*")
 
-    elif ctx.content.lower() == "why?" and client.lazer == ctx.author.id:
+    elif ctx.content.lower() == "why?" and client.lastLazerUser == ctx.author.id:
         if await playSound(ctx, "lazer"):
             await ctx.channel.send("*the sun is a deadly lazor~*")
-            client.lazer = None
+            client.lastLazerUser = None
 
 
 # ADMIN THINGS
@@ -123,6 +120,13 @@ async def jigg(ctx):
     await ctx.channel.send("stawp")
 
 
+@client.command()
+async def tts(ctx, message, language='de'):
+    teats = gTTS(text=message, lang=language)
+    teats.save('src/sounds/tts.mp3')
+    await playSound(ctx, "tts")
+
+
 # UTILITIES
 
 
@@ -144,8 +148,7 @@ async def help2(ctx):
     embed.set_footer(text=f"DaarenBot | {quote}",
                      icon_url="https://pbs.twimg.com/profile_images/1150347609602764800/iXcuHXev_400x400.jpg")
 
-    embed.add_field(name="!pi", value="2000 digits of pi because why not", inline=False)
-    embed.add_field(name="!longpi <amount>", value="posts <amount>*2000 digits of pi (max.5 times)", inline=False)
+    embed.add_field(name="!pi", value="<amount>*2000 digits of pi because why not", inline=False)
     embed.add_field(name="!toto", value="toto africa", inline=True)
     embed.add_field(name="!jigg", value="hehe", inline=True)
     embed.add_field(name="!dog", value="picture of a dog", inline=True)
@@ -183,8 +186,7 @@ async def playSound(ctx, filename):
         voicechannel = ctx.guild.voice_client
         if voicechannel is None:
             voicechannel = await channel.connect()
-        voicechannel.play(
-            discord.FFmpegPCMAudio(executable=config['ffmpeg'], source=f'src/sounds/{filename}.mp3'))
+        voicechannel.play(discord.FFmpegPCMAudio(executable=config['ffmpeg'], source=f'src/sounds/{filename}.mp3'))
         return True
     return False
 

@@ -13,8 +13,8 @@ My Discord Bot whoop
     ```
    {
         "token": "BOT TOKEN",
-        "invite" : "BOT INVITE LINK"
-        "ffmpeg" : "ffmpeg.exe Directory" (Something like /FFmpeg/bin/ffmpeg.exe)
+        "invite" : "BOT INVITE LINK",
+        "ffmpeg" : "ffmpeg.exe Directory"(Something like /FFmpeg/bin/ffmpeg.exe),
         "owner_id" : ownerid (as an integer)
     }
 3. Download .mp3 files from somewhere idk
