@@ -1,24 +1,23 @@
 name: Woof
     
 on:
+  workflow_dispatch:
+
   schedule:
-    - cron: "0 0 * * *" #runs at 00:00 UTC everyday
+    - cron: "0 20 * * *" #runs at 00:00 UTC everyday
+
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to github runner.
-        
-      - name: setup python
-        uses: actions/setup-python@v2
+      - name: discord-action
+        # You may pin to the exact commit or the version.
+        # uses: sebastianpopp/discord-action@ba18c5aaa871acf97620c349fd76a187550f12eb
+        uses: sebastianpopp/discord-action@v1.0
         with:
-          python-version: 3.8 #install the python needed
-          
-      #- name: start bot # run the run.py to get the latest data
-       # run: |
-       #   python woof.py
-        #env:
-          #key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
+          # Discord webhook URL
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          # Message to be sent
+          message: "WOOF WOOF <@${{ secrets.USERID }}>\n https://cdn.discordapp.com/attachments/524962099495960586/937986226672259092/Tyler1_barking_like_a_dog.mp4"
