@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "0 20 * * *" #runs at 00:00 UTC everyday
+    - cron: "0 19 * * *"
 
 jobs:
   build:
